@@ -24,7 +24,7 @@ class CustomUser(AbstractUser):
         verbose_name="permisos de usuario",
     )
 
-    def _str_(self):
+    def __str__(self):
         return self.username
 
 
@@ -32,7 +32,7 @@ class CustomUser(AbstractUser):
 class Categoria(models.Model):
     nombre = models.CharField(max_length=100, unique=True)  # Ahora las categorías son globales y únicas
 
-    def _str_(self):
+    def __str__(self):
         return self.nombre
 
 # Modelo para presupuestos (Budgets)
@@ -43,7 +43,7 @@ class Presupuesto(models.Model):
     periodo_inicio = models.DateField()
     periodo_fin = models.DateField()
 
-    def _str_(self):
+    def __str__(self):
         return f"Presupuesto {self.categoria.nombre}: {self.limite}"
 
 # Modelo para transacciones financieras
@@ -60,5 +60,5 @@ class Transaccion(models.Model):
     fecha = models.DateTimeField(auto_now_add=True)
     descripcion = models.TextField(blank=True, null=True)
 
-    def _str_(self):
+    def __str__(self):
         return f"{self.tipo}: {self.monto} ({self.categoria})"

@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="card">
+        <div class="card-body">
+            <h2 class="card-title">Confirmar Eliminación</h2>
+            <p class="card-text">¿Estás seguro de que deseas eliminar esta transacción?</p>
+            
+            <dl class="row">
+                <dt class="col-sm-3">Tipo:</dt>
+                <dd class="col-sm-9">{{ transaccion.tipo }}</dd>
+                
+                <dt class="col-sm-3">Monto:</dt>
+                <dd class="col-sm-9">${{ transaccion.monto }}</dd>
+                
+                <dt class="col-sm-3">Categoría:</dt>
+                <dd class="col-sm-9">{{ transaccion.categoria.nombre }}</dd>
+                
+                <dt class="col-sm-3">Fecha:</dt>
+                <dd class="col-sm-9">{{ transaccion.fecha|date:"d/m/Y H:i" }}</dd>
+            </dl>
+
+            <form method="post">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-danger">Confirmar Eliminación</button>
+                <a href="{% url 'lista_transacciones' %}" class="btn btn-secondary">Cancelar</a>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

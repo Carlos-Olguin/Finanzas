@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2>Registro de Transacciones</h2>
+    
+    <div class="row mb-4">
+        <div class="col-md-4">
+            <div class="card text-white bg-success">
+                <div class="card-body">
+                    <h5 class="card-title">Total Ingresos</h5>
+                    <p class="card-text">${{ total_ingresos }}</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card text-white bg-danger">
+                <div class="card-body">
+                    <h5 class="card-title">Total Gastos</h5>
+                    <p class="card-text">${{ total_gastos }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <a href="{% url 'crear_transaccion' %}" class="btn btn-primary mb-3">Nueva Transacción</a>
+    
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Fecha</th>
+                    <th>Tipo</th>
+                    <th>Categoría</th>
+                    <th>Monto</th>
+                    <th>Descripción</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for transaccion in transacciones %}
+                <tr>
+                    <td>{{ transaccion.fecha|date:"d/m/Y H:i" }}</td>
+                    <td>
+                        <span class="badge {% if transaccion.tipo == 'Ingreso' %}bg-success{% else %}bg-danger{% endif %}">
+                            {{ transaccion.tipo }}
+                        </span>
+                    </td>
+                    <td>{{ transaccion.categoria.nombre }}</td>
+                    <td>${{ transaccion.monto }}</td>
+                    <td>{{ transaccion.descripcion|truncatechars:30 }}</td>
+                    <td>
+                        <a href="{% url 'editar_transaccion' transaccion.pk %}" class="btn btn-sm btn-warning">Editar</a>
+                        <a href="{% url 'eliminar_transaccion' transaccion.pk %}" class="btn btn-sm btn-danger">Eliminar</a>
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="6" class="text-center">No hay transacciones registradas.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}
